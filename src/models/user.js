@@ -1,12 +1,15 @@
 const Password = require('objection-password')();
 const Model = require('objection').Model;
-
+const Unique = require('objection-unique')({
+  fields: ['email'],
+  identifiers: ['id']
+});
 
 import Category from './category';
 import Note from './note';
 
 
-export default class User extends Password(Model) {
+class User extends Password(Unique(Model)) {
 
   static get tableName() {
     return 'users';
@@ -57,8 +60,9 @@ export default class User extends Password(Model) {
   }
 
   async $beforeInsert() {
-    this.created_at = new Date().toISOString();
-    this.updated_at = new Date().toISOString();
+    const creationDate = new Date().toISOString();
+    this.created_at = creationDate;
+    this.updated_at = creationDate;
     const hash = await this.generateHash();
   }
 
@@ -69,3 +73,5 @@ export default class User extends Password(Model) {
 
 
 }
+
+module.exports = User;

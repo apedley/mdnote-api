@@ -1,24 +1,32 @@
-// import Recipe from '../src/models/recipe';
-// import User from '../src/models/user';
+import Category from '../src/models/category';
+import User from '../src/models/user';
 
-// export function setupUsers() {
-//   const users = [
-//     {id: 1, email: 'test@test.com', password: 'test1234'}
-//   ];
+export function setupUsers() {
+  const users = [
+    {id: 1, email: 'test@test.com', password: 'test1234'}
+  ];
 
-//   return User.query().insert(users);
-// }
+  return User.query().insert(users);
+}
 
-// export function setupRecipes() {
-//   const recipes = [
-//     {id: 1, name: 'hamburger', description: 'a burger', instructions: 'make it', rating: 0.5},
-//     {id: 2, name: 'salad', description: 'nope no', instructions: 'ok hi', rating: 0.5},
-//     {id: 3, name: 'hot dog', description: 'no ketchup', instructions: 'do thing', rating: 0.5}
-//   ];
+export function createUser(data) {
+  return User.query().insert(data);
+}
 
-//   return Recipe.query().insert(recipes);
-// }
+export function setupCategories() {
+  const categories = [
+    {id: 1, name: 'things', description: 'a thing'},
+    {id: 2, name: 'more', description: 'nope no'},
+    {id: 3, name: 'another', description: 'no ok'},
+  ];
 
-// export function resetRecipes() {
-//   return Recipe.query().delete();
-// }
+  return Category.query().insert(categories);
+}
+
+export function resetCategories() {
+  return Category.query().delete();
+}
+
+export function resetUsers() {
+  return User.query().delete();
+}

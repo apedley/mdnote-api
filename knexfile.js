@@ -24,11 +24,15 @@ module.exports = {
       user:     'andrew',
       password: null
     },
+    pool: {
+      min: 2,
+      max: 20
+    },
     migrations: {
-      directory: __dirname + '/db/migrations'
+      directory: __dirname + '/db/migrations/test'
     },
     seeds: {
-      directory: __dirname + '/db/seeds'
+      directory: __dirname + '/db/migrations/seeds'
     }
   },
 
@@ -41,7 +45,7 @@ module.exports = {
     },
     pool: {
       min: 2,
-      max: 10
+      max: 20
     },
     migrations: {
       tableName: 'knex_migrations'
