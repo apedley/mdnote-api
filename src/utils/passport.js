@@ -10,6 +10,7 @@ const ExtractJwt = passportJwt.ExtractJwt;
 const localOptions = {
   usernameField: 'email'
 }
+
 const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
   User.query().where('email', email).first()
     .then(user => {
@@ -25,9 +26,10 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
           return done(null, user);
         })
 
-    }).catch(err => {
-      return done(err);
     })
+    // .catch(err => {
+    //   return done(err);
+    // })
 });
 
 const jwtOptions = {
@@ -44,10 +46,11 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
         done(null, false);
       }
     })
-    .catch(err => {
-      return done(err, false);
-    })
+    // .catch(err => {
+    //   return done(err, false);
+    // })
 })
+
 
 passport.use(localLogin);
 passport.use(jwtLogin);

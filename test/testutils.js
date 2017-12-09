@@ -1,10 +1,8 @@
-import Category from '../src/models/category';
-import User from '../src/models/user';
+import Category from "../src/models/category";
+import User from "../src/models/user";
 
 export function setupUsers() {
-  const users = [
-    {id: 1, email: 'test@test.com', password: 'test1234'}
-  ];
+  const users = [{ id: 1, email: "test@test.com", password: "test1234" }];
 
   return User.query().insert(users);
 }
@@ -15,9 +13,9 @@ export function createUser(data) {
 
 export function setupCategories() {
   const categories = [
-    {id: 1, name: 'things', description: 'a thing'},
-    {id: 2, name: 'more', description: 'nope no'},
-    {id: 3, name: 'another', description: 'no ok'},
+    { id: 1, name: "things", description: "a thing" },
+    { id: 2, name: "more", description: "nope no" },
+    { id: 3, name: "another", description: "no ok" }
   ];
 
   return Category.query().insert(categories);
@@ -29,4 +27,8 @@ export function resetCategories() {
 
 export function resetUsers() {
   return User.query().delete();
+}
+
+export function resourceListTest() {
+
 }

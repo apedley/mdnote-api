@@ -3,7 +3,8 @@ const router = express.Router();
 import notesController from '../controllers/notes_controller';
 import passport from 'passport';
 
-const requireAuth = passport.authenticate('jwt', { session: false });
+// const requireAuth = passport.authenticate('jwt', { session: false });
+import requireAuth from './index';
 
 router.post('/', requireAuth, notesController.create);
 router.get('/', requireAuth, notesController.list);

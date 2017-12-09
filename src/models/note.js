@@ -8,17 +8,6 @@ export default class Note extends Model {
     return 'notes';
   }
 
-  getSummary() {
-    const summaryLength = 100;
-    let summary = this.body.trim();
-
-    if (summary.length > summaryLength) {
-      summary = summary.slice(0, summaryLength-3) + '...';
-    }
-
-    return summary;
-  }
-
   static get jsonSchema() {
     return {
       type: 'object',
@@ -55,7 +44,6 @@ export default class Note extends Model {
     }
   }
   $beforeInsert() {
-    this.getSummary();
     this.created_at = new Date().toISOString();
     this.updated_at = new Date().toISOString();
   };

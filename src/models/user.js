@@ -1,4 +1,6 @@
-const Password = require('objection-password')();
+const Password = require('objection-password')({
+  allowEmptyPassword: true
+});
 const Model = require('objection').Model;
 const Unique = require('objection-unique')({
   fields: ['email'],
@@ -9,7 +11,7 @@ import Category from './category';
 import Note from './note';
 
 
-class User extends Password(Unique(Model)) {
+export default class User extends Password(Unique(Model)) {
 
   static get tableName() {
     return 'users';
@@ -29,6 +31,10 @@ class User extends Password(Unique(Model)) {
           type: 'string',
           enum: ['Admin', 'User'],
           default: 'User'
+        },
+        tokens: {
+          type: 'array',
+          items: { type: 'string' }
         },
         resetPasswordToken: { type: 'string' },
         resetPasswordExpires: { type: 'date' },
@@ -70,8 +76,4 @@ class User extends Password(Unique(Model)) {
     this.updated_at = new Date().toISOString();
     const hash = await this.generateHash();
   }
-
-
 }
-
-module.exports = User;

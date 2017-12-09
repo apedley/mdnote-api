@@ -5,8 +5,8 @@ exports.up = function(knex, Promise) {
     table.string('title').notNullable();
     table.text('body');
     table.text('preview');
-    table.integer('categoryId').references('id').inTable('categories');
-    table.integer('userId').references('id').inTable('users');
+    table.integer('categoryId').references('id').inTable('categories').onDelete('CASCADE');
+    table.integer('userId').references('id').inTable('users').onDelete('CASCADE');
     table.timestamps();
   });
 };

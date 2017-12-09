@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
     table.string('password').notNullable();
     table.string('firstName');
     table.string('lastName');
+    table.text('tokens').notNullable().defaultTo('[]');
     table.enum('role', ['Admin', 'User']).defaultTo('User');
     table.string('resetPasswordToken');
     table.date('resetPasswordExpires');
