@@ -26,20 +26,25 @@ describe('Auth controller', () => {
   before(() => {});
 
   describe('Signing and logging in', () => {
+
+    let errorStub;
+
+    before(() => {
+      errorStub = sinon.stub(console, 'error');
+
+    });
+
     it('POST /signup should sign up user', async () => {
       expect( await request(app).post('/signup').send(newUserInfo) )
         .to.have.property('statusCode', 201);
     });
 
     it('POST /signup should not sign up user with a taken email', async () => {
-      const consoleErrorStub = sinon.stub(console, 'error');
 
       expect( await request(app).post('/signup')
         .send({email: newUserInfo.email, password: newUserInfo.password + 'abc'}) )
-        .to.have.property('statusCode', 422);
-      expect(consoleErrorStub).to.have.been.calledWith('Email already exists');
-
-      console.error.restore();
+        .to.have.property('statusCode', 400);
+      expect(errorStub).to.have.been.calledWith('Email already exists');
     });
 
     it('POST /signin should give a token with valid credentials', async () => {
@@ -69,6 +74,11 @@ describe('Auth controller', () => {
 
       expect(response.body.token).to.be.undefined;
       expect(response.statusCode).to.equal(401);
+    });
+
+
+  after(() => {
+      errorStub.restore();
     });
   });
 

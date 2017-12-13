@@ -1,4 +1,3 @@
-var knex = require('../../db/knex');
 import * as Utils from '../utils';
 import Note from '../models/note';
 import Category from '../models/category';
@@ -40,12 +39,17 @@ module.exports = {
     .then(rowsDeleted => Utils.sendJSON(res, rowsDeleted))
     .catch(error => Utils.sendError(res, error));
   },
-
   patch(req, res) {
-    Note.query().patch(req.body)
+    Note.query().patchAndFetchById(req.params.id, req.body)
       .where('userId', req.user.id)
-      .andWhere('id', req.params.id)
-      .then(rowsPatched => Utils.sendJSON(res, rowsPatched))
+      .then(note => Utils.sendJSON(res, note))
       .catch(error => Utils.sendError(res, error));
   }
+  // patch(req, res) {
+  //   Note.query().patch(req.body)
+  //     .where('userId', req.user.id)
+  //     .andWhere('id', req.params.id)
+  //     .then(rowsPatched => Utils.sendJSON(res, rowsPatched))
+  //     .catch(error => Utils.sendError(res, error));
+  // }
 }

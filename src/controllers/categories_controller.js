@@ -1,4 +1,3 @@
-var knex = require('../../db/knex');
 import * as Utils from '../utils';
 import Category from '../models/category';
 

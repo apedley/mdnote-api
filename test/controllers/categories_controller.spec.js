@@ -28,20 +28,20 @@ describe('Categories controller', () => {
     password: 'abc123'
   };
 
-  // before(async () => {
-  //   const signup = await request(app).post('/signup').send(userInfo);
-  //   const signin = await request(app).post('/signin').send(userInfo);
-  //   token = signin.body.token;
-  // });
+  before(async () => {
+    const signup = await request(app).post('/signup').send(userInfo);
+    const signin = await request(app).post('/signin').send(userInfo);
+    token = signin.body.token;
+  });
 
   // it('/GET/categories should get a list of categories', async () => {
   //   expect( await request(app).get('/categories').set({'Authorization': `Bearer ${token}`}) ).to.have.property('statusCode', 200);;
   // })
 
-  // it('/GET/categories should get a list of categories', async () => {
-  //   // expect( await request(app).get('/categories').set({'Authorization': `Bearer ${token}`}) ).to.have.property('statusCode', 200);
-  //   const response = await request(app).get('/categories').set({'Authorization': `Bearer ${token}`});
-  //   console.dir(response.request.user);
-  //   expect(response.statusCode).to.eql(200);
-  // })
+  it('/GET/categories should get a list of categories', async () => {
+    // expect( await request(app).get('/categories').set({'Authorization': `Bearer ${token}`}) ).to.have.property('statusCode', 200);
+    const response = await request(app).get('/categories').set({'Authorization': `Bearer ${token}`});
+    // console.dir(response.request.user);
+    expect(response.statusCode).to.eql(200);
+  })
 });

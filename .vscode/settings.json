@@ -11,5 +11,6 @@
     "**/.DS_Store": true,
     "dist": true,
     "coverage": true
-  }
+  },
+  "eslint.enable": false
 }
