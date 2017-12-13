@@ -8,3 +8,4 @@ _nogit
 .env
 config/index.js
 dist
+coverage
