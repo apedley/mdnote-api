@@ -40,15 +40,15 @@ module.exports = {
     client: 'postgresql',
     connection: {
       database: 'mdnote-prod',
-      user:     'mdnote-user',
-      password: 'mdnote-mdnote'
+      user:     '',
+      password: ''
     },
     pool: {
       min: 2,
       max: 20
     },
     migrations: {
-      tableName: 'knex_migrations'
+      directory: __dirname + '/db/migrations'
     }
   }
 
