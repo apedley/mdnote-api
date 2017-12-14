@@ -10,3 +10,4 @@ config/index.js
 dist
 coverage
 .nyc_output
+knexfile.js
