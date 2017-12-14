@@ -8,3 +8,4 @@ export function sendError(res, err = {}, code = 400) {
   console.error(err);
   return res.status(code).json(err);
 }
+

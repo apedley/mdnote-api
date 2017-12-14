@@ -9,3 +9,4 @@ _nogit
 config/index.js
 dist
 coverage
+.nyc_output

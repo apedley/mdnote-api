@@ -39,17 +39,12 @@ module.exports = {
     .then(rowsDeleted => Utils.sendJSON(res, rowsDeleted))
     .catch(error => Utils.sendError(res, error));
   },
+
   patch(req, res) {
     Note.query().patchAndFetchById(req.params.id, req.body)
       .where('userId', req.user.id)
       .then(note => Utils.sendJSON(res, note))
       .catch(error => Utils.sendError(res, error));
   }
-  // patch(req, res) {
-  //   Note.query().patch(req.body)
-  //     .where('userId', req.user.id)
-  //     .andWhere('id', req.params.id)
-  //     .then(rowsPatched => Utils.sendJSON(res, rowsPatched))
-  //     .catch(error => Utils.sendError(res, error));
-  // }
+
 }

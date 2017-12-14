@@ -13,6 +13,7 @@ module.exports = {
     Category.query()
     .where('userId', req.user.id)
     .andWhere('id', req.params.id)
+    .first()
     .eager('notes')
     .then(categories => Utils.sendJSON(res, categories))
     .catch(error => Utils.sendError(res, error));
@@ -23,7 +24,7 @@ module.exports = {
       name: req.body.name,
       userId: req.user.id
     })
-    .then(categories => Utils.sendJSON(res, categories))
+    .then(categories => Utils.sendJSON(res, categories, 201))
     .catch(error => Utils.sendError(res, error));
   },
 

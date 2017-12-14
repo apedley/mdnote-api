@@ -46,7 +46,7 @@ describe('User Model', () => {
 
   after( (done) => {
     // util.resetUsers().then(() => {
-      knex.destroy(done);
+    knex.destroy(done);
     // }).catch(err => {
       // knex.destroy(done);
     //   console.log(err);

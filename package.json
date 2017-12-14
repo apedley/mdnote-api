@@ -57,7 +57,6 @@
     "eslint-watch": "^3.1.3",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0",
-    "passport-mocked": "^1.2.0",
     "regenerator-runtime": "^0.11.0",
     "screwy": "^1.0.5",
     "sinon": "^4.1.3",
