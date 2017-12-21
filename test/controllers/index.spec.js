@@ -12,7 +12,7 @@ chai.use(chaiAsPromised);
 
 const expect = chai.expect;
 
-describe('Auth controller', () => {
+describe('Other tests', () => {
   describe('Other routes', () => {
     it('POST /unknown', async () => {
       expect( await request(app).get('/noroute') )
