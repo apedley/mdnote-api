@@ -6,8 +6,7 @@ module.exports = {
   list(req, res) {
     Note.query().where('userId', req.user.id)
     .eager('category')
-    .then(notes => Utils.sendJSON(res, notes))
-    .catch(error => Utils.sendError(res, error));
+    .then(notes => Utils.sendJSON(res, notes));
   },
 
   show(req, res) {
@@ -28,7 +27,7 @@ module.exports = {
       userId: req.user.id,
       categoryId: req.body.categoryId
     })
-    .then(note => Utils.sendJSON(res, note))
+    .then(note => Utils.sendJSON(res, note, 201))
     .catch(error => Utils.sendError(res, error));
   },
 

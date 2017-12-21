@@ -5,8 +5,7 @@ module.exports = {
   list(req, res) {
     Category.query()
       .where('userId', req.user.id)
-      .then(categories => Utils.sendJSON(res, categories))
-      .catch(error => Utils.sendError(res, error));
+      .then(categories => Utils.sendJSON(res, categories));
   },
 
   show(req, res) {
