@@ -6,7 +6,6 @@ build
 _nogit
 .idea
 .env
-config/index.js
 dist
 coverage
 .nyc_output
