@@ -18,6 +18,6 @@ before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - yarn run migrate-test
 script:
-  - yarn run test-once
+  - yarn run coverage
 after_success:
   - npm run coveralls
