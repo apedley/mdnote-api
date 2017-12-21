@@ -6,7 +6,7 @@ module.exports = {
     client: 'pg',
     connection: {
       database: 'mdnote-development',
-      user: 'andrew',
+      user: 'mdnoteuser',
       password: null
     },
     migrations: {
