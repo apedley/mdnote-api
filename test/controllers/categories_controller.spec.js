@@ -65,6 +65,16 @@ describe('Categories controller', () => {
     expect(response.body.name).to.eql(categories[0].name);
   });
 
+  it('GET /categories/:id should load notes with category', async() => {
+    const newNote = { title: 'a note', body: 'a body', categoryId };
+    const newNoteResponse = await request(app).post(`/notes`).set({'Authorization': `Bearer ${token}`}).send(newNote);
+    expect(newNoteResponse.statusCode).to.eql(201);
+    const response = await request(app).get(`/categories/${categoryId}`).set({'Authorization': `Bearer ${token}`});
+    expect(response.body.name).to.eql(categories[0].name);
+    expect(response.body.notes).to.be.an('array');
+    expect(response.body.notes[0].title).to.eql(newNote.title);
+  });
+
   it('GET /categories/:id should show not show a category that does not exist', async() => {
     const response = await request(app).get(`/categories/923482934`).set({'Authorization': `Bearer ${token}`});
     expect(response.body).to.eql({});
