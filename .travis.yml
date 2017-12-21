@@ -19,4 +19,5 @@ before_script:
   - yarn run migrate-test
 script:
   - yarn run test-once
-
+after_success:
+  - npm run coveralls
