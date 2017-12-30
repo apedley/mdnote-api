@@ -7,18 +7,21 @@ import categoriesRoutes from './routes/categories';
 import notesRoutes from './routes/notes';
 import knex from '../db/knex';
 import { Model } from 'objection';
-import config from '../config';
 import cors from 'cors';
+
+import passport from './utils/passport';
 
 Model.knex(knex);
 
 const app = express();
 app.disable('x-powered-by');
 
-
 app.use(logger('dev', {
   skip: () => app.get('env') === 'test'
 }));
+
+app.use(passport.initialize());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 

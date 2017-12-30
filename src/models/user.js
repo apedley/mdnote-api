@@ -39,7 +39,31 @@ export default class User extends Password(Unique(Model)) {
         resetPasswordToken: { type: 'string' },
         resetPasswordExpires: { type: 'date' },
         created_at: { type: 'timestamp' },
-        updated_at: { type: 'timestamp' }
+        updated_at: { type: 'timestamp' },
+        google: {
+          id: { type: 'string' },
+          token: { type: 'string' },
+          photo: { type: 'string' },
+          displayName: { type: 'string' }
+        },
+        facebook: {
+          id: { type: 'string' },
+          token: { type: 'string' },
+          displayName: { type: 'string' },
+          email: { type: 'string' },
+          photo: { type: 'string' }
+        },
+        twitter: {
+          id: { type: 'string' },
+          token: { type: 'string' },
+          displayName: { type: 'string' },
+          handle: { type: 'string' },
+          photo: { type: 'string' },
+          metadata: {
+            location: { type: 'string' },
+            description: { type: 'string' }
+          }
+        }
       }
     }
   }

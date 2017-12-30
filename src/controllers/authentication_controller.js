@@ -9,7 +9,7 @@ function tokenForUser(user) {
 }
 
 module.exports = {
-  signin(req, res, next) {
+  signinWithEmail(req, res, next) {
     const token = tokenForUser(req.user);
 
     User.query().findById(req.user.id).then(user => {
@@ -24,7 +24,7 @@ module.exports = {
     })
   },
 
-  signup(req, res, next) {
+  signupWithEmail(req, res, next) {
     const email = req.body.email;
 
     User.query().where('email', email)
@@ -43,5 +43,16 @@ module.exports = {
           return Utils.sendJSON(res, { user }, 201);
         })
       })
+  },
+
+  authRedirect(req, res, next) {
+    console.dir(req);
+    debugger;
+    return Utils.sendJSON(res, { status: 'redirected'});
+  },
+
+  google(req, res, next) {
+    return Utils.sendJSON(res, { status: 'google'});
+
   }
 }
