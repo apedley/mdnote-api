@@ -10,3 +10,7 @@ dist
 coverage
 .nyc_output
 knexfile.js
+
+config/development.json
+config/production.json
+config/test.json
