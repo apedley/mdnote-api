@@ -3,7 +3,9 @@ import config from '../../config';
 import User from '../models/user';
 import passportJwt from 'passport-jwt';
 import LocalStrategy from 'passport-local';
+// import PassportGoogle from 'passport-google-oauth';
 
+// const GoogleOAuth2Strategy = PassportGoogle.OAuth2Strategy;
 const JwtStrategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
 
@@ -38,7 +40,8 @@ const jwtOptions = {
 };
 
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
-  User.query().findById(payload)
+
+  User.query().findById(payload.sub)
     .then(user => {
       if (user) {
         done(null, user);
@@ -50,6 +53,19 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
     //   return done(err, false);
     // })
 })
+
+// const googleStrategy = new GoogleOAuth2Strategy({
+//   clientID: config.google.clientId,
+//   clientSecret: config.google.clientSecret,
+//   callbackURL: config.google.redirectUrl
+// }, (accessToken, refreshToken, profile, done) => {
+//   const email = profile.emails[0];
+
+//   User.query().where('email', email).first()
+//     .then(user => {
+//       debugger;
+//     })
+// })
 
 passport.use(localLogin);
 passport.use(jwtLogin);

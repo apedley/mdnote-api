@@ -1,11 +1,30 @@
+import jwt from 'jwt-simple';
+import moment from 'moment';
+
 import User from '../models/user';
 import * as Utils from '../utils';
-import jwt from 'jwt-simple';
 import config from '../../config';
+// import googleapis from 'googleapis';
+
+
+// const OAuth2 = googleapis.auth.OAuth2;
+
+// const oauth2Client = new OAuth2(
+//   config.google.clientId,
+//   config.google.clientSecret,
+//   config.google.redirectUrl
+// );
 
 function tokenForUser(user) {
   const secret = config.secret;
-  return jwt.encode(user.id, secret);
+
+  const payload = {
+    exp: moment().add(7, 'days').unix(),
+    iat: moment().unix(),
+    sub: user.id,
+  }
+
+  return jwt.encode(payload, secret);
 }
 
 module.exports = {
@@ -38,10 +57,45 @@ module.exports = {
           password: req.body.password
         })
         .then(user => {
-          // const token = tokenForUser(user);
-          // Utils.sendJSON(res, { token }, 201);
-          return Utils.sendJSON(res, { user }, 201);
+          const token = tokenForUser(user);
+          Utils.sendJSON(res, {
+            user: {
+              id: user.id,
+              email: user.email
+            },
+            token
+          } , 201);
+          // return Utils.sendJSON(res, { user }, 201);
         })
       })
-  }
+  },
+
+  // googleLoginUrl(req, res, next) {
+  //   const scopes = [
+  //     'https://www.googleapis.com/auth/userinfo.profile',
+  //     'https://www.googleapis.com/auth/plus.me'
+  //   ];
+
+  //   var url = oauth2Client.generateAuthUrl({
+  //     access_type: 'online',
+  //     scope: scopes,
+  //   });
+
+  //   Utils.sendJSON(res, { url });
+  // },
+
+  // authenticateWithGoogle(req, res, next) {
+  //   if (!req.body || !req.body.code) {
+  //     return Utils.sendError(res, 'Code is required.');
+  //   }
+
+  //   const code = req.body.code;
+
+  //   oauth2Client.getToken(code, function (err, tokens) {
+  //     if (tokens && tokens.access_token) {
+  //       Utils.sendJSON(res, { token: tokens.access_token })
+  //     }
+  //   });
+
+  // }
 }
