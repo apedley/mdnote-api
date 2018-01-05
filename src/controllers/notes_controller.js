@@ -44,6 +44,34 @@ module.exports = {
       .where('userId', req.user.id)
       .then(note => Utils.sendJSON(res, note))
       .catch(error => Utils.sendError(res, error));
+  },
+
+  searchText(req, res) {
+    const searchString = req.query.q;
+
+    if (!searchString) {
+      return Utils.sendError(res, 'Search string required');
+    }
+
+    // Postgres requires & instead of spaces between terms
+    const sanitizedString = searchString.replace(/\ /g, '&');
+
+    const sql = `SELECT * FROM notes WHERE "noteText" @@ '${sanitizedString}' AND "userId"=${req.user.id}`;
+
+    console.log('SQL: ' + sql);
+
+    Note.raw(sql)
+      .then(results => {
+        let notes;
+
+        if (results.rowCount < 1) {
+          notes = [];
+        } else {
+          notes = results.rows;
+        }
+        Utils.sendJSON(res, notes);
+      })
+      .catch(error => Utils.sendError(res, error));
   }
 
 }
