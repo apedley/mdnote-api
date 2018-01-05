@@ -13,4 +13,3 @@ knexfile.js
 
 config/development.json
 config/production.json
-config/test.json

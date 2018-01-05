@@ -10,7 +10,8 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "dist": true,
-    "coverage": true
+    "coverage": true,
+    ".nyc_output": true
   },
   "eslint.enable": false
 }
