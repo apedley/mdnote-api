@@ -100,7 +100,7 @@ module.exports = {
 
       return Share.query().insert(share)
         .then(share => Utils.sendJSON(res, share, 201))
-        .catch(error => Utils.sendError(res, error));
+        // .catch(error => Utils.sendError(res, error));
 
     })
     .catch(error => Utils.sendError(res, error));

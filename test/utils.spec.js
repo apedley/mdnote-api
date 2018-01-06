@@ -28,7 +28,7 @@ chai.use(sinonChai);
 describe('Utils helpers', () => {
   let errorStub;
 
-  before(() => {
+  beforeEach(() => {
     errorStub = sinon.stub(console, 'error');
 
   });
@@ -58,7 +58,21 @@ describe('Utils helpers', () => {
     expect(errorStub).to.have.been.calledWith(err);
   });
 
-  after(() => {
+
+  it('should send error with sendError with default 400 status and empty object error', () => {
+    const err = 'Test error';
+
+    const res = new MockResponse();
+
+
+    const output = Utils.sendError(res);
+
+    expect(output.status).to.equal(400);
+    expect(output.json).to.equal(JSON.stringify({}));
+    expect(errorStub).to.have.been.called;
+  });
+
+  afterEach(() => {
     errorStub.restore();
   });
 
