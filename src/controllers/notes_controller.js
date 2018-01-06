@@ -1,6 +1,8 @@
 import * as Utils from '../utils';
 import Note from '../models/note';
 import Category from '../models/category';
+import Share from '../models/share';
+import shortid from 'shortid';
 
 module.exports = {
   list(req, res) {
@@ -58,7 +60,7 @@ module.exports = {
 
     const sql = `SELECT * FROM notes WHERE "noteText" @@ '${sanitizedString}' AND "userId"=${req.user.id}`;
 
-    console.log('SQL: ' + sql);
+    // console.log('SQL: ' + sql);
 
     Note.raw(sql)
       .then(results => {
@@ -71,7 +73,59 @@ module.exports = {
         }
         Utils.sendJSON(res, notes);
       })
-      .catch(error => Utils.sendError(res, error));
-  }
+  },
 
+  createShare(req, res) {
+    const noteId = parseInt(req.params.id, 10);
+
+    if (!noteId) {
+      return Utils.sendError(res, 'noteId is required');
+    }
+
+    const url = shortid.generate();
+    const share = {
+      userId: req.user.id,
+      noteId,
+      url
+    }
+
+    Note.query()
+    .where('userId', req.user.id)
+    .andWhere('id', req.params.id)
+    .first()
+    .then(note => {
+
+      share.title = note.title;
+      share.body = note.body;
+
+      return Share.query().insert(share)
+        .then(share => Utils.sendJSON(res, share, 201))
+        .catch(error => Utils.sendError(res, error));
+
+    })
+    .catch(error => Utils.sendError(res, error));
+  },
+
+  showShared(req, res) {
+    Share.query()
+      .where('url', req.params.url)
+      .first()
+      .then(share => {
+
+        if (!share) {
+          return Utils.sendError(res, 'Not found');
+        }
+        return Share.query()
+        .where('id', share.id)
+        .patch({ views: share.views + 1 })
+        .then(incremented => {
+
+          Utils.sendJSON(res, share);
+        })
+      });
+
+    // })
+    // .catch(error => Utils.sendError(res, error));
+
+  }
 }

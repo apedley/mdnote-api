@@ -19,12 +19,12 @@ const userInfo = {
 
 const noteOne = {
   title: 'a note',
-  body: 'some body'
+  body: 'some body some note'
 }
 
 const noteTwo = {
   title: 'note two',
-  body: 'another body'
+  body: 'another body another note'
 }
 
 const notes = [noteOne, noteTwo];
@@ -38,6 +38,7 @@ describe('Notes controller', () => {
   let errorStub;
   let token;
   let noteId;
+  let shareUrl;
 
   before(async () => {
     errorStub = sinon.stub(console, 'error');
@@ -79,7 +80,7 @@ describe('Notes controller', () => {
     expect(response.body).to.eql({});
   });
 
-  it('GET /categories/:id should show not show an invalid category', async() => {
+  it('GET /notes/:id should show not show an invalid note', async() => {
     const response = await request(app).get(`/notes/e`).set({'Authorization': `Bearer ${token}`});
     expect(response.statusCode).to.eql(400);
   });
@@ -97,6 +98,56 @@ describe('Notes controller', () => {
     expect(response.statusCode).to.eql(400);
   });
 
+  it('GET /notes/search should search note body and titles', async() => {
+    const response = await request(app).get(`/notes/search?q=anoth`).set({'Authorization': `Bearer ${token}`});
+
+    expect(response.statusCode).to.eq(200);
+    expect(response.body.length).to.eql(1);
+  });
+
+  it('GET /notes/search should return an empty array if no results are found', async() => {
+    const response = await request(app).get(`/notes/search?q=quiznos`).set({'Authorization': `Bearer ${token}`});
+
+    expect(response.statusCode).to.eq(200);
+    expect(response.body.length).to.eql(0);
+  });
+
+  it('GET /notes/search should not search without search string', async() => {
+    const response = await request(app).get(`/notes/search`).set({'Authorization': `Bearer ${token}`});
+
+    expect(response.statusCode).to.eq(400);
+  });
+
+  it('POST /notes/:id/share should create a share from a valid note', async() => {
+    const response = await request(app).post(`/notes/${noteId}/share`).set({'Authorization': `Bearer ${token}`});
+    expect(response.statusCode).to.eq(201);
+    expect(response.body.url).to.exist;
+
+    shareUrl = response.body.url;
+  });
+
+  it('POST /notes/:id/share should not create share if note isn not found', async() => {
+    const unknown_note_response = await request(app).post(`/notes/${noteId-1}/share`).set({'Authorization': `Bearer ${token}`});
+    expect(unknown_note_response.statusCode).to.eq(400);
+  });
+
+  it('POST /notes/:id/share should not create share with invalid id', async() => {
+    const invalid_response = await request(app).post(`/notes/a/share`).set({'Authorization': `Bearer ${token}`});
+    expect(invalid_response.statusCode).to.eq(400);
+  });
+
+  it('GET /shared/:url should return share information', async () => {
+    const response = await request(app).get(`/shared/${shareUrl}`);
+    expect(response.statusCode).to.eq(200);
+    expect(response.body.title).to.exist;
+  });
+
+  it('GET /shared/:url should not show a share with invalid url', async () => {
+    const response = await request(app).get(`/shared/${shareUrl + 'abc'}`);
+    expect(response.statusCode).to.eq(400);
+    expect(response.body).to.eq('Not found');
+  });
+
   it('DELETE /notes/:id should delete a note', async() => {
     const response = await request(app).get(`/notes`).set({'Authorization': `Bearer ${token}`});
     expect(response.body.length).to.eql(2);
@@ -109,6 +160,8 @@ describe('Notes controller', () => {
     const response = await request(app).delete(`/notes/39394823984`).set({'Authorization': `Bearer ${token}`});
     expect(response.statusCode).to.eql(400);
   });
+
+
 
   after(() => {
     errorStub.restore();

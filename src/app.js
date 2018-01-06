@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import routes from './routes';
 import categoriesRoutes from './routes/categories';
 import notesRoutes from './routes/notes';
+import usersRoutes from './routes/users';
 import knex from '../db/knex';
 import { Model } from 'objection';
 import config from '../config';
@@ -27,6 +28,7 @@ app.use(cors());
 app.use('/', routes);
 app.use('/categories', categoriesRoutes);
 app.use('/notes', notesRoutes);
+app.use('/users', usersRoutes);
 
 app.use((req, res, next) => {
   const err = new Error('Not found');

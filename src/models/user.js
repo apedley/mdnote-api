@@ -9,7 +9,7 @@ const Unique = require('objection-unique')({
 
 import Category from './category';
 import Note from './note';
-
+import Share from './share';
 
 export default class User extends Password(Unique(Model)) {
 
@@ -60,6 +60,14 @@ export default class User extends Password(Unique(Model)) {
         join: {
           from: 'users.id',
           to: 'notes.userId'
+        }
+      },
+      shares: {
+        relation: Model.HasManyRelation,
+        modelClass: Share,
+        join: {
+          from: 'users.id',
+          to: 'shares.userId'
         }
       }
     }

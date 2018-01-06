@@ -1,66 +1,58 @@
 import { Model } from 'objection';
-import Category from './category';
+import Note from './note';
 import User from './user';
-import Share from './share';
 
-export default class Note extends Model {
+export default class Share extends Model {
 
   static get tableName() {
-    return 'notes';
+    return 'shares';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['title'],
       properties: {
-        title: { type: 'string' },
+        id: { type: 'integer' },
+        url: { type: 'string' },
         body: { type: 'text' },
-        preview: { type: 'text' },
+        title: { type: 'string' },
+        views: { type: 'integer' },
+        noteId: { type: 'integer' },
+        userId: { type: 'integer' },
         created_at: { type: 'timestamp' },
-        updated_at: { type: 'timestamp' },
-        categoryId: { type: 'integer' }
+        updated_at: { type: 'timestamp' }
       }
     }
   }
 
   static get relationMappings() {
     return {
-      category: {
+      note: {
         relation: Model.BelongsToOneRelation,
-        modelClass: Category,
+        modelClass: Note,
         join: {
-          from: 'notes.categoryId',
-          to: 'categories.id'
+          from: 'shares.noteId',
+          to: 'notes.id'
         }
       },
       user: {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
-          from: 'notes.userId',
+          from: 'shares.userId',
           to: 'users.id'
-        }
-      },
-      shares: {
-        relation: Model.HasManyRelation,
-        modelClass: Share,
-        join: {
-          from: 'notes.id',
-          to: 'shares.noteId'
         }
       }
     }
   }
+
+
   $beforeInsert() {
     this.created_at = new Date().toISOString();
     this.updated_at = new Date().toISOString();
   };
-
   $beforeUpdate() {
     this.updated_at = new Date().toISOString();
   };
 
-
 }
-

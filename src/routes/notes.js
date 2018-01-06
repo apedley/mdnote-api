@@ -14,6 +14,6 @@ router.get('/:id', requireAuth, notesController.show);
 router.delete('/:id', requireAuth, notesController.delete);
 // router.put('/:id', requireAuth, notesController.update);
 router.patch('/:id', requireAuth, notesController.patch);
-
+router.post('/:id/share', requireAuth,notesController.createShare);
 
 export default router;

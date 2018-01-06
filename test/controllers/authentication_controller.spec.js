@@ -103,9 +103,18 @@ describe('Auth controller', () => {
         .to.have.property('statusCode', 200);
     })
 
-  })
+    it('should deny access after user has been deleted', async () => {
+      const delete_response = await request(app).delete('/users/self').set({'Authorization': `Bearer ${token}`});
+
+      expect (delete_response.statusCode).to.be.eql(200);
+
+      expect( await request(app).get('/categories').set({'Authorization': `Bearer ${token}`}))
+        .to.have.property('statusCode', 401);
+    });
+  });
 
   after(async () => {
+
     await util.resetUsers();
   });
 });
