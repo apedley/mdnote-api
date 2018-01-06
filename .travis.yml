@@ -20,4 +20,4 @@ before_script:
 script:
   - yarn run coverage
 after_success:
-  - yarn run coverage-coveralls
+  - npm run coveralls
