@@ -37,7 +37,7 @@ module.exports = {
     Note.query().delete()
     .where('userId', req.user.id)
     .andWhere('id', req.params.id)
-    .then(rowsDeleted => Utils.sendJSON(res, rowsDeleted))
+    .then(rowsDeleted => Utils.sendJSON(res, req.params.id))
     .catch(error => Utils.sendError(res, error));
   },
 

@@ -102,6 +102,7 @@ describe('Categories controller', () => {
     const response = await request(app).get(`/categories`).set({'Authorization': `Bearer ${token}`});
     expect(response.body.length).to.eql(2);
     const responseTwo = await request(app).delete(`/categories/${categoryId}`).set({'Authorization': `Bearer ${token}`});
+    expect(responseTwo.body).to.eql(categoryId + '');
     const responseThree = await request(app).get(`/categories`).set({'Authorization': `Bearer ${token}`});
     expect(responseThree.body.length).to.eql(1);
   });

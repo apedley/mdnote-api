@@ -152,6 +152,7 @@ describe('Notes controller', () => {
     const response = await request(app).get(`/notes`).set({'Authorization': `Bearer ${token}`});
     expect(response.body.length).to.eql(2);
     const responseTwo = await request(app).delete(`/notes/${noteId}`).set({'Authorization': `Bearer ${token}`});
+    expect(responseTwo.body).to.eql(noteId + '');
     const responseThree = await request(app).get(`/notes`).set({'Authorization': `Bearer ${token}`});
     expect(responseThree.body.length).to.eql(1);
   });
