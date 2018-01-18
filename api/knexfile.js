@@ -41,10 +41,12 @@ module.exports = {
   production: {
     client: 'postgresql',
     // connection: {
+    //   host: '10.0.0.45',
     //   database: 'mdnote-prod',
     //   user:     'mdnote-user',
     //   password: 'mdnote-mdnote'
     // },
+    // connection: 'postgres://mdnote-user:mdnote-mdnote@10.0.0.45/mdnote-prod',
     connection: process.env.DATABASE_URL,
     pool: {
       min: 2,

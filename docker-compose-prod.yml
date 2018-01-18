@@ -1,17 +1,6 @@
 version: '3'
 
 services:
-  api-db:
-    container_name: api-db
-    build: ./api/db
-    ports:
-      - '5430:5432'
-    environment:
-      - POSTGRES_USER=mdnote-user
-      - POSTGRES_PASSWORD=mdnote-mdnote
-    healthcheck:
-      test: exit 0
-
   api:
     container_name: api
     build:
@@ -21,21 +10,5 @@ services:
       - '2052:2052'
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgres://mdnote-user:mdnote-mdnote@api-db:5432/mdnote-prod
+      - DATABASE_URL=postgres://mdnote-user:mdnote-mdnote@10.0.0.45/mdnote-prod
       - TOKEN_SECRET=aiufhaeufhsd
-    depends_on:
-      - api-db
-    links:
-      - api-db
-
-  nginx:
-    container_name: nginx-proxy
-    build: ./nginx
-    restart: always
-    ports:
-      - 80:80
-    depends_on:
-      - api
-    links:
-      - api
-
