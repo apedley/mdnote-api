@@ -1,0 +1,5 @@
+apps:
+  - script   : 'dist/index.js'
+    name     : 'mdnote-api'
+    exec_mode: 'cluster'
+    instances: 2

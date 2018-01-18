@@ -14,18 +14,15 @@ services:
 
   api:
     container_name: api
-    build: ./api
-    volumes:
-      - './api:/usr/src/app'
-      - './api/package.json:/usr/src/package.json'
-
+    build:
+      context: ./api
+      dockerfile: Dockerfile-prod
     ports:
-      - '3030:3030'
+      - '2052:2052'
     environment:
-      - NODE_ENV=development
-      - DATABASE_URL=postgres://mdnote-user:mdnote-mdnote@api-db:5432/mdnote-development
-      - DATABASE_URL_TEST=postgres://mdnote-user:mdnote-mdnote@api-db:5432/mdnote-test
-      - TOKEN_SECRET=aiufhaeufh
+      - NODE_ENV=production
+      - DATABASE_URL=postgres://mdnote-user:mdnote-mdnote@api-db:5432/mdnote-prod
+      - TOKEN_SECRET=aiufhaeufhsd
     depends_on:
       - api-db
     links:
