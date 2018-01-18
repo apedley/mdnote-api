@@ -9,9 +9,9 @@
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "dist": true,
-    "coverage": true,
-    ".nyc_output": true
+    "api/dist": true,
+    "api/coverage": true,
+    "api/.nyc_output": true
   },
   "eslint.enable": false
 }

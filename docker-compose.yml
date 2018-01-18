@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  api-db:
+    container_name: api-db
+    build: ./api/db
+    ports:
+      - '5430:5432'
+    environment:
+      - POSTGRES_USER=mdnote-user
+      - POSTGRES_PASSWORD=mdnote-mdnote
+    healthcheck:
+      test: exit 0
+
+  api:
+    container_name: api
+    build: ./api
+    volumes:
+      - './api:/usr/src/app'
+      - './api/package.json:/usr/src/package.json'
+
+    ports:
+      - '3030:3030'
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://mdnote-user:mdnote-mdnote@api-db:5432/mdnote-development
+      - DATABASE_URL_TEST=postgres://mdnote-user:mdnote-mdnote@api-db:5432/mdnote-test
+      - TOKEN_SECRET=aiufhaeufh
+    depends_on:
+      - api-db
+    links:
+      - api-db
+

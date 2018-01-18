@@ -1,11 +1,11 @@
 import jwt from 'jwt-simple';
 import moment from 'moment';
+import bcrypt from 'bcryptjs';
 
 import User from '../models/user';
 import * as Utils from '../utils';
 import config from '../../config';
 // import googleapis from 'googleapis';
-
 
 // const OAuth2 = googleapis.auth.OAuth2;
 
@@ -45,7 +45,8 @@ module.exports = {
 
   signup(req, res, next) {
     const email = req.body.email;
-
+    const salt = bcrypt.genSaltSync();
+    const hash = bcrypt.hashSync(req.body.password, salt);
     User.query().where('email', email)
       .then(users => {
         if (users.length > 0) {
@@ -54,7 +55,7 @@ module.exports = {
 
         User.query().insert({
           email: email,
-          password: req.body.password
+          password: hash
         })
         .then(user => {
           const token = tokenForUser(user);
@@ -69,6 +70,7 @@ module.exports = {
         })
       })
   },
+
 
   // googleLoginUrl(req, res, next) {
   //   const scopes = [

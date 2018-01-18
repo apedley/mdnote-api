@@ -4,6 +4,7 @@ import User from '../models/user';
 import passportJwt from 'passport-jwt';
 import LocalStrategy from 'passport-local';
 // import PassportGoogle from 'passport-google-oauth';
+import * as Utils from './index';
 
 // const GoogleOAuth2Strategy = PassportGoogle.OAuth2Strategy;
 const JwtStrategy = passportJwt.Strategy;
@@ -20,13 +21,23 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
         return done(null, false);
       }
 
-      user.verifyPassword(password)
-        .then(results => {
-          if (!results) {
-            return done(null, false);
-          }
-          return done(null, user);
-        })
+      if (Utils.compareLocalPassword(password, user.password)) {
+        return done(null, user);
+      } else {
+        return done(null, false);
+      }
+      // user.verifyPassword(password)
+      //   .then(results => {
+      //     if (!results) {
+      //       return done(null, false);
+      //     }
+      //     return done(null, user);
+      //   })
+      // if (user.password === password) {
+      //   return done(null, user);
+      // } else {
+      //   return done(null, false);
+      // }
 
     })
     // .catch(err => {

@@ -1,6 +1,6 @@
-const Password = require('objection-password')({
-  allowEmptyPassword: true
-});
+// const Password = require('objection-password')({
+//   allowEmptyPassword: true
+// });
 const Model = require('objection').Model;
 const Unique = require('objection-unique')({
   fields: ['email'],
@@ -11,7 +11,8 @@ import Category from './category';
 import Note from './note';
 import Share from './share';
 
-export default class User extends Password(Unique(Model)) {
+// export default class User extends Password(Unique(Model)) {
+export default class User extends Unique(Model) {
 
   static get tableName() {
     return 'users';
@@ -77,11 +78,11 @@ export default class User extends Password(Unique(Model)) {
     const creationDate = new Date().toISOString();
     this.created_at = creationDate;
     this.updated_at = creationDate;
-    const hash = await this.generateHash();
+    // const hash = await this.generateHash();
   }
 
   async $beforeUpdate() {
     this.updated_at = new Date().toISOString();
-    const hash = await this.generateHash();
+    // const hash = await this.generateHash();
   }
 }

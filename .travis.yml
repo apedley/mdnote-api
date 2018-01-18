@@ -11,6 +11,8 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
+before_install:
+  - cd api
 install:
   - yarn
 before_script:

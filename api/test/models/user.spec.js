@@ -27,12 +27,6 @@ describe('User Model', () => {
     userId = res.id;
   });
 
-  it('should hash a users password', async () => {
-    const res = await User.query().insert(validUserData);
-    expect(res.password).to.not.equal(validUserData.password);
-    userId = res.id;
-  });
-
   it('should add timestamps on creation', async () => {
     const res = await User.query().insert(validUserData);
     expect(res.created_at).to.not.be.null;
