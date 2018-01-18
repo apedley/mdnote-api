@@ -10,5 +10,4 @@ dist
 coverage
 .nyc_output
 
-config/development.json
-config/production.json
+docker-compose-prod.yml
